@@ -1,10 +1,13 @@
 const toDoForm = document.querySelector(".js-todoForm"),
     toDoInput = toDoForm.querySelector("input"),
-    toDoList = document.querySelector(".js-todoList");
+    toDoList = document.querySelector(".js-todoList"),
+    toDoFin = document.querySelector(".js-todoFin");
 
 const TODOS_LS = 'toDos';
+const TODOS_FIN = 'toDosFin'
 
 let toDos = [];
+let toDosFin = [];
 
 function saveToDos() {
     localStorage.setItem(TODOS_LS, JSON.stringify(toDos));
@@ -21,17 +24,27 @@ function deleteToDo(event) {
     saveToDos();
 }
 
+function finishTodo(event) {
+    const btn = event.target;
+    const li = btn.parentNode;
+    li.classList.toggle("finish");
+}
+
 
 function paintToDo(text) {
     const li = document.createElement("li");
     const delBtn = document.createElement("button");
-    const span = document.createElement("span");
-    const newId = toDos.length + 1;
+    const finBtn = document.createElement("button");
+    const div = document.createElement("div");
+    const newId = Date.now();
+    finBtn.innerHTML = "✔️"
     delBtn.innerHTML = "❌";
+    finBtn.addEventListener("click", finishTodo);
     delBtn.addEventListener("click", deleteToDo);
-    span.innerText = text;
+    div.innerText = text;
+    li.appendChild(div);
+    li.appendChild(finBtn);
     li.appendChild(delBtn);
-    li.appendChild(span);
     li.id = newId
     toDoList.appendChild(li);
     const toDoObj = {

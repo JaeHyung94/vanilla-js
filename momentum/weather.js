@@ -10,7 +10,14 @@ function getWeather(lat, lon) {
     }).then(function(json) {
         const temperature = json.main.temp;
         const place = json.name;
-        weather.innerText = `${temperature} @ ${place}`;
+        const rain = json.sys.country;
+        weather.innerText = `${temperature} @ ${place}, ${rain}`;
+
+        if (temperature >= "0") {
+            weather.style.color = "red";
+        } else {
+            weather.style.color = "blue";
+        }
     })
 }
 
